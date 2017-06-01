@@ -1,0 +1,12 @@
+# IntelliJ 자동생성파일 예외처리
+*.iml
+.idea/
+
+gradlew.bat
+gradlew
+gradle/
+.gradle/
+
+# 하위 프로젝트 예외처리
+**/build/
+

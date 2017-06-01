@@ -1,0 +1,3 @@
+apply plugin: 'application'
+
+mainClassName = "oio.echo.server.EchoServer" // Main.java is located in src/main/java/Main.java
