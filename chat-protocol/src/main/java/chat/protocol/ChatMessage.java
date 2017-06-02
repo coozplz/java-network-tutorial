@@ -18,7 +18,17 @@ public final class ChatMessage {
         // Hide default constructor
     }
 
+    public ChatCommand getCommand() {
+        return command;
+    }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 
     public static ChatMessage joinMessage(String userId) {
         return new ChatMessage(ChatCommand.JOIN, userId);
@@ -46,8 +56,7 @@ public final class ChatMessage {
 
 
     public static ChatMessage parse(String message) {
-
-        return null;
+        return new Gson().fromJson(message, ChatMessage.class);
     }
 
     public String toDisplay() {

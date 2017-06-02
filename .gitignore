@@ -10,3 +10,7 @@ gradle/
 # 하위 프로젝트 예외처리
 **/build/
 
+**/.classpath
+**/.project
+.settings/
+**/bin/

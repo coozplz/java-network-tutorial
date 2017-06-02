@@ -17,19 +17,19 @@ public enum ChatCommand {
     MESSAGE("msg");
 
 
-    ChatCommand(String command) {
-        this.command = command;
+    ChatCommand(String value) {
+        this.value = value;
     }
 
-    private String command;
+    private String value;
 
-    public String getCommand() {
-        return command;
+    public String getValue() {
+        return value;
     }
 
-    public static ChatCommand fromString(String command) {
+    public static ChatCommand fromString(String value) {
         for (ChatCommand c : ChatCommand.values()) {
-            if (StringUtils.equals(c.getCommand(), command)) {
+            if (StringUtils.equals(c.getValue(), value)) {
                 return c;
             }
         }
