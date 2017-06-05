@@ -1,8 +1,7 @@
 rootProject.name = 'java-network-tutorial'
 
 // 블록킹 소켓 프로젝트(BLOCKING SOCKET PROJECT)
-include 'oio-echo-server' // 에코 서버
-include 'oio-echo-client' // 에코 클라이언트
+include 'oio-echo' // 에코 서버
 
 include 'oio-echo-thread-server' // 에코 멀티 스레드 서버
 
