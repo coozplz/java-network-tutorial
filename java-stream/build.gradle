@@ -1,0 +1,8 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    testCompile group: 'com.google.guava', name: 'guava', version: '22.0'
+}
