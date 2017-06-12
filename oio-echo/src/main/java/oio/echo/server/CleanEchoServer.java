@@ -1,5 +1,6 @@
 package oio.echo.server;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,32 +14,22 @@ import java.net.Socket;
  * @author coozplz@gmail.com
  * @since 1.0.0
  */
-public class EchoServer {
-    private static final Logger logger = LoggerFactory.getLogger(EchoServer.class);
+public class CleanEchoServer {
+    private static final Logger logger = LoggerFactory.getLogger(CleanEchoServer.class);
 
     private static final int LISTEN_PORT = 55679;
 
-    private EchoServer() {
+    private CleanEchoServer() {
     }
 
     private void execute() {
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(LISTEN_PORT);
+        try (ServerSocket serverSocket = new ServerSocket(LISTEN_PORT)){
             logger.info("Server is running on port {}", LISTEN_PORT);
             Socket connection = serverSocket.accept();
 
             handleConnection(connection);
         } catch (IOException e) {
             logger.error("서버 실행 실패", e);
-        } finally {
-            if (serverSocket != null) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
         }
     }
 
@@ -50,8 +41,8 @@ public class EchoServer {
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
 
-        try {
 
+        try {
             inputStream = connection.getInputStream();
             outputStream = connection.getOutputStream();
             inputStreamReader = new InputStreamReader(inputStream);
@@ -78,68 +69,17 @@ public class EchoServer {
             logger.warn("메시지 처리과정중 오류 발생", e);
 
         } finally {
-
-            if (bufferedWriter != null) {
-                try {
-                    bufferedWriter.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (outputStreamWriter != null) {
-                try {
-                    outputStreamWriter.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (inputStreamReader != null) {
-                try {
-                    inputStreamReader.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (IOException e) {
-                    // 무시
-                }
-            }
-
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
+            IOUtils.closeQuietly(inputStreamReader);
+            IOUtils.closeQuietly(outputStreamWriter);
+            IOUtils.closeQuietly(bufferedReader);
+            IOUtils.closeQuietly(bufferedWriter);
         }
     }
 
     public static void main(String[] args) {
-        EchoServer server = new EchoServer();
+        CleanEchoServer server = new CleanEchoServer();
         server.execute();
     }
 }
