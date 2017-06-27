@@ -33,6 +33,7 @@ public class NewIOChannels {
 
     int readFileUsingByteChannel() throws IOException {
         SeekableByteChannel readChannel = Files.newByteChannel(fileToRead);
+
         ByteBuffer byteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
 
         int readSize = 0;
@@ -59,6 +60,7 @@ public class NewIOChannels {
             byteBuffer.flip();
             writeChannel.write(byteBuffer);
         }
+
         readChannel.close();
         writeChannel.close();
     }
