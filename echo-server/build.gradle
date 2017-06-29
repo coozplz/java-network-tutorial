@@ -1,2 +1,0 @@
-apply plugin: 'application'
-mainClassName = "oio.echo.client.EchoClient" // Main.java is located in src/main/java/Main.java

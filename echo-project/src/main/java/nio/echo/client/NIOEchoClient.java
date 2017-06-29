@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -62,26 +63,35 @@ public class NIOEchoClient {
                 }
 
                 if (key.isReadable()) {
-                    ByteBuffer buffer = ByteBuffer.allocate(BUF_SIZE);
-                    socketChannel.read(buffer);
-                    buffer.flip();
-                    CharsetDecoder decoder = UTF_8.newDecoder();
-                    CharBuffer charBuffer = decoder.decode(buffer);
-                    String msg = charBuffer.toString();
-                    logger.info("수신 메시지: {}", msg);
-                    key.interestOps(SelectionKey.OP_WRITE);
+                    read(key, socketChannel);
                 }
 
                 if (key.isWritable()) {
-                    System.out.print("송신메시지를 입력하세요: ");
-                    String writeMessage = bufferedReader.readLine();
-
-                    ByteBuffer buffer = ByteBuffer.wrap(writeMessage.getBytes(UTF_8));
-                    socketChannel.write(buffer);
-                    key.interestOps(SelectionKey.OP_READ);
+                    write(bufferedReader, key, socketChannel);
                 }
             }
         }
 
+    }
+
+    private static void write(BufferedReader bufferedReader, SelectionKey key, SocketChannel socketChannel) throws IOException {
+        System.out.print("송신메시지를 입력하세요: ");
+        String writeMessage = bufferedReader.readLine();
+
+        ByteBuffer buffer = ByteBuffer.wrap(writeMessage.getBytes(UTF_8));
+        socketChannel.write(buffer);
+        key.interestOps(SelectionKey.OP_READ);
+    }
+
+
+    private static void read(SelectionKey key, SocketChannel socketChannel) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(BUF_SIZE);
+        socketChannel.read(buffer);
+        buffer.flip();
+        CharsetDecoder decoder = UTF_8.newDecoder();
+        CharBuffer charBuffer = decoder.decode(buffer);
+        String msg = charBuffer.toString();
+        logger.info("수신 메시지: {}", msg);
+        key.interestOps(SelectionKey.OP_WRITE);
     }
 }

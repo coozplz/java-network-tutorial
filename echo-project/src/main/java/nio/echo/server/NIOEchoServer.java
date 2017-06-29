@@ -41,7 +41,7 @@ public class NIOEchoServer {
     }
 
 
-    private static void handleSelector(Set readySet) throws Exception {
+    private static void handleSelector(Set readySet) throws IOException {
         Iterator iterator = readySet.iterator();
         while(iterator.hasNext()) {
             SelectionKey key = (SelectionKey) iterator.next();
@@ -66,7 +66,7 @@ public class NIOEchoServer {
                     channel = (SocketChannel) key.channel();
                     write(key);
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 logger.error("[{}] // 오류 발생", channel == null ? "알수없음" : channel, e);
             }
         }

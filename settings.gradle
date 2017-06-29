@@ -1,15 +1,8 @@
 rootProject.name = 'java-network-tutorial'
 
 include 'java-io'
-
-// 블록킹 소켓 프로젝트(BLOCKING SOCKET PROJECT)
-include 'echo-server' // 에코 서버
-
-include 'chat-server'
-
-include 'netty-echo-server'
-
-include 'netty-chat-server'
+include 'echo-project'
+include 'chat-project'
 
 // 공통으로 사용하는 프로토콜
 include 'chat-protocol'
