@@ -42,7 +42,6 @@ public class AsyncEchoServer {
 
     private static void read(AsynchronousSocketChannel socketChannel) {
         final ByteBuffer buffer = ByteBuffer.allocate(BUF_SIZE);
-
         socketChannel.read(buffer, socketChannel, new CompletionHandler<Integer, AsynchronousSocketChannel>() {
             @Override
             public void completed(Integer result, AsynchronousSocketChannel channel) {
@@ -84,6 +83,7 @@ public class AsyncEchoServer {
                 try {
                     remoteAddress = channel.getRemoteAddress().toString();
                 } catch (IOException e) {
+                    // 무시
                 }
 
                 logger.info("[{}] // 메시지 송신 완료", remoteAddress);
